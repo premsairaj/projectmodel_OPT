@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<body>
+<form action="/predict" method="POST">
+	<div class='prem' align="center">
+	<input type="file" name="picField" id="picField" size="24" accept="image/png, image/gif, image/jpeg,image/jpg" onchange="encodeImageFileAsURL();" >
+	<button  type="submit" id="ValidateType">SUBMIT</button>
+	<input type="hidden" id="Base64" name="64" value>
+    <div id="imgTest" name="imgTest"></div>
+    </div>
+</form>
+<script type='text/javascript'>
+  function encodeImageFileAsURL() {
+
+    var filesSelected = document.getElementById("picField").files;
+    if (filesSelected.length > 0) {
+      var fileToLoad = filesSelected[0];
+      var fileReader = new FileReader();
+
+      fileReader.onload = function(fileLoadedEvent) {
+    
+        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+        var newImage = document.createElement('img');
+        newImage.src = srcData;
+        newImage.name='bimg';
+        document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+        document.getElementById("Base64").value=document.getElementById("imgTest").innerHTML
+        //alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+        console.log(srcData);
+      }
+   fileReader.readAsDataURL(fileToLoad);
+
+    }
+  }
+</script>
+{% if result1|length > 0 %}
+    {% if result1 == 0 %}
+    <h1 align='center'>Object_Image</h1>
+    {% elif result1 == 1 %}
+    <h1 align='center'>Paragraph_Image</h1>
+    {% else %}
+    <h1 align='center'>Text_Image</h1>
+    {% endif %}
+{% endif %}
+
+</body>
+</head>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
